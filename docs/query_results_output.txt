@@ -1,0 +1,383 @@
+======================================================================
+FINANCIAL REPORTING - SQL ANALYTICS RESULTS
+======================================================================
+
+======================================================================
+FILE: 01_revenue_analysis.sql
+======================================================================
+
+--- ============================================================ ---
+year  month    revenue       cost  gross_profit  order_count  active_customers  margin_pct  prev_year_revenue  yoy_growth_pct
+2024      1 3210305.77 1696168.55    1514137.22         1493               947        47.2                NaN             NaN
+2024      2 2454269.30 1291369.68    1162899.62         1341               902        47.4                NaN             NaN
+2024      3 3013324.11 1588838.53    1424485.58         1504               957        47.3                NaN             NaN
+2024      4 2845533.13 1505244.99    1340288.14         1495               925        47.1                NaN             NaN
+2024      5 3208439.93 1722841.74    1485598.19         1537               963        46.3                NaN             NaN
+2024      6 3070075.70 1618732.53    1451343.17         1538               963        47.3                NaN             NaN
+2024      7 3029718.46 1603929.25    1425789.21         1523               967        47.1                NaN             NaN
+2024      8 3069530.92 1624371.35    1445159.57         1507               957        47.1                NaN             NaN
+2024      9 3110718.52 1635187.41    1475531.11         1502               971        47.4                NaN             NaN
+2024     10 2971483.74 1569418.18    1402065.56         1511               951        47.2                NaN             NaN
+2024     11 2902808.68 1540203.68    1362605.00         1458               951        46.9                NaN             NaN
+2024     12 2845414.10 1504854.44    1340559.66         1514               958        47.1                NaN             NaN
+2025      1 2920273.87 1555250.55    1365023.32         1484               945        46.7         3210305.77            -9.0
+2025      2 2754019.78 1453180.45    1300839.33         1343               889        47.2         2454269.30            12.2
+2025      3 2719593.59 1444727.30    1274866.29         1440               926        46.9         3013324.11            -9.7
+2025      4 3106270.98 1663974.04    1442296.94         1483               918        46.4         2845533.13             9.2
+2025      5 2883537.14 1518947.07    1364590.07         1510               951        47.3         3208439.93           -10.1
+2025      6 2827219.51 1490451.98    1336767.53         1431               917        47.3         3070075.70            -7.9
+2025      7   94512.02   46866.80      47645.22           52                50        50.4         3029718.46           -96.9
+
+--- 2. Quarterly Revenue with Running Total ---
+year quarter    revenue  gross_profit  customers  ytd_revenue  margin_pct
+2024      Q1 8677899.18    4101522.42       1420   8677899.18        47.3
+2024      Q2 9124048.76    4277229.50       1437  17801947.94        46.9
+2024      Q3 9209967.90    4346479.89       1436  27011915.84        47.2
+2024      Q4 8719706.52    4105230.22       1438  35731622.36        47.1
+2025      Q1 8393887.24    3940728.94       1418   8393887.24        46.9
+2025      Q2 8817027.63    4143654.54       1423  17210914.87        47.0
+2025      Q3   94512.02      47645.22         50  17305426.89        50.4
+
+--- 3. Revenue by Category with 3-Month Moving Average ---
+  month     category   revenue  moving_avg_3m
+2024-01 Büromaterial 121530.93      121530.93
+2024-02 Büromaterial 114065.28      117798.11
+2024-03 Büromaterial 103047.99      112881.40
+2024-04 Büromaterial 116960.10      111357.79
+2024-05 Büromaterial 103511.67      107839.92
+2024-06 Büromaterial 109273.69      109915.15
+2024-07 Büromaterial 112505.90      108430.42
+2024-08 Büromaterial 119515.27      113764.95
+2024-09 Büromaterial 109894.50      113971.89
+2024-10 Büromaterial 106270.95      111893.57
+2024-11 Büromaterial 117364.36      111176.60
+2024-12 Büromaterial 111951.56      111862.29
+2025-01 Büromaterial 121396.28      116904.07
+2025-02 Büromaterial 107101.86      113483.23
+2025-03 Büromaterial 108935.97      112478.04
+  ... (95 total rows)
+
+--- 4. Revenue Waterfall: Budget vs Actual vs Forecast ---
+ year  month     budget     actual   variance  variance_pct
+ 2024      1  817760.14 3210305.77 2392545.63         292.6
+ 2024      2  930754.50 2454269.30 1523514.80         163.7
+ 2024      3  898729.20 3013324.11 2114594.91         235.3
+ 2024      4  999880.65 2845533.13 1845652.48         184.6
+ 2024      5  878590.71 3208439.93 2329849.22         265.2
+ 2024      6  804540.53 3070075.70 2265535.17         281.6
+ 2024      7  785857.76 3029718.46 2243860.70         285.5
+ 2024      8  784108.57 3069530.92 2285422.35         291.5
+ 2024      9  695304.97 3110718.52 2415413.55         347.4
+ 2024     10  714770.28 2971483.74 2256713.46         315.7
+ 2024     11  822386.69 2902808.68 2080421.99         253.0
+ 2024     12  672514.09 2845414.10 2172900.01         323.1
+ 2025      1  658558.88 2920273.87 2261714.99         343.4
+ 2025      2 1118487.95 2754019.78 1635531.83         146.2
+ 2025      3  977046.39 2719593.59 1742547.20         178.3
+ 2025      4 1034800.27 3106270.98 2071470.71         200.2
+ 2025      5  883612.18 2883537.14 1999924.96         226.3
+ 2025      6 1088663.36 2827219.51 1738556.15         159.7
+ 2025      7  780669.35   94512.02 -686157.33         -87.9
+
+======================================================================
+FILE: 02_customer_cohorts.sql
+======================================================================
+
+--- ============================================================ ---
+cohort_month  cohort_size  month_n  active_customers  retention_pct
+     2024-01          947        0               947          100.0
+     2024-01          947        1               567           59.9
+     2024-01          947        2               610           64.4
+     2024-01          947        3               595           62.8
+     2024-01          947        4               602           63.6
+     2024-01          947        5               636           67.2
+     2024-01          947        6               608           64.2
+     2024-01          947        7               602           63.6
+     2024-01          947        8               614           64.8
+     2024-01          947        9               598           63.1
+     2024-01          947       10               597           63.0
+     2024-01          947       11               607           64.1
+     2024-02          335        0               335          100.0
+     2024-02          335        1               209           62.4
+     2024-02          335        2               210           62.7
+  ... (81 total rows)
+
+--- 2. Customer Lifetime Value (CLV) by Segment ---
+         segment  customer_count  avg_clv  avg_orders  avg_order_value  avg_profit_per_customer  avg_lifespan_days
+      Enterprise             113 37176.90        18.0           938.69                 17417.52              487.0
+Kleinunternehmen             469 35279.06        17.8           900.98                 16585.95              482.0
+     Privatkunde             589 35178.68        17.9           887.87                 16592.74              489.0
+     Mittelstand             329 35166.98        17.5           916.89                 16542.18              486.0
+
+--- 3. RFM Segmentation (Recency, Frequency, Monetary) ---
+customer_id    customer_name          segment  recency_days  frequency  monetary rfm_score     rfm_segment
+     K01068  Jonas Schneider      Privatkunde          27.0         25  83566.34       355 Loyal Customers
+     K00627 Moritz Schneider Kleinunternehmen          17.0         29  82372.16       355 Loyal Customers
+     K00311     Leon Fischer Kleinunternehmen          48.0         21  79988.74       255         At Risk
+     K00256      Marie Meyer Kleinunternehmen           8.0         22  79889.79       455       Champions
+     K01026       Emma Meyer      Privatkunde          58.0         25  79808.40       155         At Risk
+     K00607     Marie Becker      Privatkunde          11.0         24  77746.74       455       Champions
+     K00737       Max Becker      Mittelstand          26.0         22  77120.71       355 Loyal Customers
+     K00325     Tim Hoffmann      Privatkunde          22.0         22  75997.54       355 Loyal Customers
+     K01387      Marie Weber      Privatkunde          25.0         22  75755.36       355 Loyal Customers
+     K00988       Lena Bauer       Enterprise          -1.0         23  75618.80       555       Champions
+     K00536      Felix Bauer      Privatkunde           2.0         25  74142.73       555       Champions
+     K00045     Paul Fischer      Mittelstand           7.0         25  74034.42       455       Champions
+     K00586       Leon Meyer      Mittelstand           6.0         23  73546.88       455       Champions
+     K01480     Lena Fischer      Privatkunde           2.0         27  73126.05       555       Champions
+     K01412      Sarah Bauer Kleinunternehmen          46.0         18  73045.63       235         At Risk
+  ... (50 total rows)
+
+--- 4. Customer Churn Detection ---
+                status  customer_count  avg_revenue  total_revenue_at_risk
+    Active (0-30 days)             953     36620.81            34899633.43
+     Warm (31-90 days)             472     33969.65            16033674.43
+ Cooling (91-180 days)              68     28117.51             1911990.37
+At Risk (181-365 days)               7     27393.00              191751.02
+
+======================================================================
+FILE: 03_product_abc.sql
+======================================================================
+
+--- ============================================================ ---
+product_id            product_name   category    revenue    margin  margin_pct  total_units  order_count  cumulative_pct abc_class
+    A00038    SecureIT Zubehör 873 Elektronik 1184212.13 455432.55        38.5          722          314             2.2         A
+    A00037  CloudFirst Zubehör 229 Elektronik 1142259.61 520991.77        45.6          687          313             4.4         A
+    A00001    SecureIT Drucker 323 Elektronik 1095356.86 599266.84        54.7          586          276             6.5         A
+    A00031  SmartWork Computer 541 Elektronik 1087983.52 512683.36        47.1          636          279             8.5         A
+    A00017   SecureIT Computer 986 Elektronik 1053410.84 429147.88        40.7          593          284            10.5         A
+    A00030    SecureIT Drucker 993 Elektronik 1021096.36 495687.08        48.5          704          310            12.4         A
+    A00034    DataCore Zubehör 273 Elektronik 1009813.50 547189.92        54.2          666          299            14.3         A
+    A00107    SecureIT Schrank 280      Möbel  979992.41 321385.37        32.8          728          305            16.2         A
+    A00014  CloudFirst Zubehör 482 Elektronik  909677.43 564460.08        62.1          705          306            17.9         A
+    A00092    DataCore Schrank 563      Möbel  900087.84 322992.92        35.9          629          306            19.6         A
+    A00109      SecureIT Stuhl 683      Möbel  881733.76 342860.06        38.9          635          299            21.2         A
+    A00027 OfficePlus Netzwerk 597 Elektronik  783264.91 371107.39        47.4          669          307            22.7         A
+    A00111    CloudFirst Stuhl 570      Möbel  758849.77 314181.17        41.4          580          285            24.1         A
+    A00081    SecureIT Schrank 914      Möbel  749368.07 284294.17        37.9          685          320            25.6         A
+    A00021  SmartWork Computer 308 Elektronik  732580.24 259222.81        35.4          609          280            26.9         A
+  ... (200 total rows)
+
+--- 2. Category Performance Summary ---
+      category  products     revenue  gross_profit  margin_pct  units_sold  avg_order_value  revenue_rank
+    Elektronik        40 20976153.55    9943230.26        47.4       25923          2120.30             1
+         Möbel        40 18818757.10    8696222.52        46.2       25996          1921.07             2
+      Software        40  6962585.43    3334179.78        47.9       26537           711.56             3
+Dienstleistung        40  4262722.11    2060341.53        48.3       26157           432.50             4
+  Büromaterial        40  2016831.06     928516.64        46.0       26527           203.99             5
+
+--- 3. Top Products per Category (Top-N per Group) ---
+      category              product_name    revenue  units
+  Büromaterial         TechPro Toner 694  101013.89    727
+  Büromaterial     OfficePlus Ordner 716   97116.63    726
+  Büromaterial      CloudFirst Toner 668   86768.02    624
+  Büromaterial  TechPro Schreibwaren 182   84599.98    625
+  Büromaterial         TechPro Toner 917   82298.85    667
+Dienstleistung   CloudFirst Schulung 959  189326.16    746
+Dienstleistung    SmartWork Beratung 178  185006.68    738
+Dienstleistung     SmartWork Wartung 605  182899.07    661
+Dienstleistung   CloudFirst Beratung 998  178890.53    773
+Dienstleistung   CloudFirst Schulung 278  169687.49    721
+    Elektronik      SecureIT Zubehör 873 1184212.13    722
+    Elektronik    CloudFirst Zubehör 229 1142259.61    687
+    Elektronik      SecureIT Drucker 323 1095356.86    586
+    Elektronik    SmartWork Computer 541 1087983.52    636
+    Elektronik     SecureIT Computer 986 1053410.84    593
+         Möbel      SecureIT Schrank 280  979992.41    728
+         Möbel      DataCore Schrank 563  900087.84    629
+         Möbel        SecureIT Stuhl 683  881733.76    635
+         Möbel      CloudFirst Stuhl 570  758849.77    580
+         Möbel      SecureIT Schrank 914  749368.07    685
+      Software        SecureIT Cloud 137  332542.52    884
+      Software    CloudFirst Analyse 235  330652.53    712
+      Software         TechPro Cloud 527  317825.57    727
+      Software      CloudFirst Cloud 842  298967.29    704
+      Software CloudFirst Sicherheit 879  286626.23    669
+
+--- 4. Product Cross-Sell Analysis (Market Basket) ---
+             product_a_name              product_b_name  bought_together_count
+      OfficePlus Ordner 898          SecureIT Cloud 137                     11
+      CloudFirst Ordner 852        TechPro Schulung 768                     11
+    OfficePlus Computer 651      SmartWork Schulung 568                     10
+       SecureIT Zubehör 808           TechPro Stuhl 553                     10
+     OfficePlus Zubehör 638        DataCore Support 514                     10
+       CloudFirst Toner 668          SecureIT Cloud 127                     10
+        SecureIT Ordner 822    TechPro Schreibtisch 565                     10
+OfficePlus Schreibwaren 521 OfficePlus Schreibtisch 596                     10
+        SecureIT Papier 263    SmartWork Sicherheit 267                     10
+      SmartWork Analyse 596        TechPro Beratung 108                     10
+    CloudFirst Beratung 998         TechPro Support 619                     10
+       SecureIT Drucker 323          SecureIT Stuhl 344                      9
+     OfficePlus Drucker 968          SecureIT Stuhl 206                      9
+    OfficePlus Computer 326        CloudFirst Stuhl 570                      9
+      SecureIT Computer 986      OfficePlus Wartung 589                      9
+    OfficePlus Netzwerk 619   OfficePlus Sicherheit 167                      9
+     SmartWork Netzwerk 189        CloudFirst Toner 488                      9
+       SecureIT Zubehör 368         TechPro Support 674                      9
+         SecureIT Toner 893         SecureIT Ordner 822                      9
+          TechPro Toner 555        CloudFirst Cloud 639                      9
+
+======================================================================
+FILE: 04_regional_breakdown.sql
+======================================================================
+
+--- ============================================================ ---
+country_code country_name     revenue  gross_profit  margin_pct  customers  orders  avg_order_value  market_share_pct
+          DE  Deutschland 34626396.99   16283881.42        47.0        968   17416          1988.19              65.3
+          AT   Österreich 11092044.76    5229775.01        47.1        319    5546          2000.01              20.9
+          CH      Schweiz  7318607.50    3448834.30        47.1        213    3704          1975.87              13.8
+
+--- 2. Regional Revenue Trend (Monthly by Country) ---
+  month country_code    revenue  active_customers  revenue_per_customer
+2024-01           AT  697068.09               210           3319.371857
+2024-01           CH  456577.59               141           3238.138936
+2024-01           DE 2056660.09               596           3450.771963
+2024-02           AT  517404.67               184           2811.981902
+2024-02           CH  287216.86               123           2335.096423
+2024-02           DE 1649647.77               595           2772.517261
+2024-03           AT  662989.49               222           2986.439144
+2024-03           CH  373877.76               115           3251.110957
+2024-03           DE 1976456.86               620           3187.833645
+2024-04           AT  554926.92               185           2999.604973
+2024-04           CH  388772.48               126           3085.495873
+2024-04           DE 1901833.73               614           3097.449072
+2024-05           AT  736205.78               213           3456.365164
+2024-05           CH  508481.91               136           3738.837574
+2024-05           DE 1963752.24               614           3198.293550
+  ... (57 total rows)
+
+--- 3. City-Level Performance (Top Cities per Country) ---
+country_code       city    revenue  customers  city_rank
+          AT       Linz 2661776.62         79          1
+          AT       Graz 2297552.44         67          2
+          AT   Salzburg 2086176.96         61          3
+          AT  Innsbruck 2032826.03         59          4
+          AT       Wien 2013712.71         53          5
+          CH       Genf 1684513.71         48          1
+          CH     Zürich 1599967.50         45          2
+          CH     Luzern 1355081.43         40          3
+          CH       Bern 1351256.25         40          4
+          CH      Basel 1327788.61         40          5
+          DE     Berlin 4316809.48        118          1
+          DE  Stuttgart 3826210.26        107          2
+          DE   Nürnberg 3707987.66        105          3
+          DE Düsseldorf 3596686.17        104          4
+          DE    Dresden 3454531.94         94          5
+
+--- 4. Segment Performance by Region ---
+country_code          segment  customer_count     revenue  avg_line_value  segment_share_pct
+          AT Kleinunternehmen             112  4139058.08          910.88               37.3
+          AT      Privatkunde             111  3582976.63          868.39               32.3
+          AT      Mittelstand              75  2645564.23          917.32               23.9
+          AT       Enterprise              21   724445.82          892.17                6.5
+          CH      Privatkunde             101  3378507.38          876.17               46.2
+          CH Kleinunternehmen              56  1905202.69          854.73               26.0
+          CH      Mittelstand              38  1394156.79          945.83               19.0
+          CH       Enterprise              18   640740.64          991.86                8.8
+          DE      Privatkunde             377 13758760.08          899.68               39.7
+          DE Kleinunternehmen             301 10501619.61          894.59               30.3
+          DE      Mittelstand             216  7530214.26          901.50               21.7
+          DE       Enterprise              74  2835803.04          930.69                8.2
+
+--- 5. Sales Rep Performance by Region ---
+ region        rep_name    revenue  gross_profit  accounts  deals  avg_deal_size  rank_in_region
+     AT Katharina Bauer 5332722.62    2499194.64      1228   2662        2003.28               1
+     AT   Markus Gruber 5128399.70    2431735.08      1250   2643        1940.37               2
+     CH  Nicole Brunner 5576337.00    2632115.81      1270   2728        2044.11               1
+     CH    Stefan Meier 5182355.46    2430507.38      1257   2636        1965.99               2
+DE-Nord  Andreas Müller 5397510.76    2530586.82      1242   2700        1999.08               1
+DE-Nord    Thomas Braun 5096076.85    2394920.25      1242   2641        1929.60               2
+ DE-Ost   Lisa Hoffmann 5350140.62    2508052.59      1279   2758        1939.86               1
+ DE-Süd     Sandra Koch 5329231.25    2506846.21      1234   2644        2015.59               1
+ DE-Süd   Julia Schmidt 5317266.27    2516865.11      1233   2647        2008.79               2
+DE-West   Michael Weber 5327008.72    2511666.84      1236   2607        2043.35               1
+
+======================================================================
+FILE: 05_executive_kpis.sql
+======================================================================
+
+--- ============================================================ ---
+             kpi       value  unit
+   Total Revenue 53037049.25   EUR
+    Gross Profit 24962490.73   EUR
+  Gross Margin %       47.10     %
+    Total Orders    26666.00 count
+Active Customers     1500.00 count
+ Avg Order Value     1988.94   EUR
+   Products Sold      200.00 count
+
+--- 2. Month-over-Month Dashboard ---
+  month    revenue     profit  orders  customers     aov  prev_month_revenue  mom_growth_pct
+2024-01 3210305.77 1514137.22    1493        947 2150.24                 NaN             NaN
+2024-02 2454269.30 1162899.62    1341        902 1830.18          3210305.77           -23.6
+2024-03 3013324.11 1424485.58    1504        957 2003.54          2454269.30            22.8
+2024-04 2845533.13 1340288.14    1495        925 1903.37          3013324.11            -5.6
+2024-05 3208439.93 1485598.19    1537        963 2087.47          2845533.13            12.8
+2024-06 3070075.70 1451343.17    1538        963 1996.15          3208439.93            -4.3
+2024-07 3029718.46 1425789.21    1523        967 1989.31          3070075.70            -1.3
+2024-08 3069530.92 1445159.57    1507        957 2036.85          3029718.46             1.3
+2024-09 3110718.52 1475531.11    1502        971 2071.05          3069530.92             1.3
+2024-10 2971483.74 1402065.56    1511        951 1966.57          3110718.52            -4.5
+2024-11 2902808.68 1362605.00    1458        951 1990.95          2971483.74            -2.3
+2024-12 2845414.10 1340559.66    1514        958 1879.40          2902808.68            -2.0
+2025-01 2920273.87 1365023.32    1484        945 1967.84          2845414.10             2.6
+2025-02 2754019.78 1300839.33    1343        889 2050.65          2920273.87            -5.7
+2025-03 2719593.59 1274866.29    1440        926 1888.61          2754019.78            -1.3
+2025-04 3106270.98 1442296.94    1483        918 2094.59          2719593.59            14.2
+2025-05 2883537.14 1364590.07    1510        951 1909.63          3106270.98            -7.2
+2025-06 2827219.51 1336767.53    1431        917 1975.69          2883537.14            -2.0
+2025-07   94512.02   47645.22      52         50 1817.54          2827219.51           -96.7
+
+--- 3. Revenue Anomaly Detection (Z-Score Method) ---
+       day   revenue  avg_daily  z_score  status
+2025-04-25 184632.36   96782.94     4.07 ANOMALY
+2024-07-03 173576.62   96782.94     3.56 ANOMALY
+2024-01-18 166086.20   96782.94     3.21 ANOMALY
+2024-09-10 162009.28   96782.94     3.02 ANOMALY
+2024-09-26 159145.50   96782.94     2.89 ANOMALY
+2024-09-01 158443.37   96782.94     2.85 ANOMALY
+2024-06-22 151270.79   96782.94     2.52 ANOMALY
+2025-06-11 150877.18   96782.94     2.50 ANOMALY
+2024-06-15 150822.87   96782.94     2.50 ANOMALY
+2024-07-08 149517.26   96782.94     2.44 ANOMALY
+2025-04-03 146412.10   96782.94     2.30 ANOMALY
+2024-11-04  49133.33   96782.94    -2.21 ANOMALY
+2025-01-21 144334.31   96782.94     2.20 ANOMALY
+2024-08-24 144298.68   96782.94     2.20 ANOMALY
+2024-10-29 143293.42   96782.94     2.15 ANOMALY
+2024-03-20  50300.65   96782.94    -2.15 ANOMALY
+2024-09-03 143029.85   96782.94     2.14 ANOMALY
+2025-02-09 142286.79   96782.94     2.11 ANOMALY
+2024-08-08  52532.96   96782.94    -2.05 ANOMALY
+2024-09-23 140976.63   96782.94     2.05 ANOMALY
+
+--- 4. Sales Pipeline Velocity ---
+  month  total_orders  avg_order_value  avg_items_per_order  unique_buyers  total_revenue
+2024-01          1493          2150.24                  2.2            947     3210305.77
+2024-02          1341          1830.18                  2.2            902     2454269.30
+2024-03          1504          2003.54                  2.2            957     3013324.11
+2024-04          1495          1903.37                  2.2            925     2845533.13
+2024-05          1537          2087.47                  2.2            963     3208439.93
+2024-06          1538          1996.15                  2.2            963     3070075.70
+2024-07          1523          1989.31                  2.2            967     3029718.46
+2024-08          1507          2036.85                  2.2            957     3069530.92
+2024-09          1502          2071.05                  2.2            971     3110718.52
+2024-10          1511          1966.57                  2.2            951     2971483.74
+2024-11          1458          1990.95                  2.2            951     2902808.68
+2024-12          1514          1879.40                  2.2            958     2845414.10
+2025-01          1484          1967.84                  2.2            945     2920273.87
+2025-02          1343          2050.65                  2.3            889     2754019.78
+2025-03          1440          1888.61                  2.2            926     2719593.59
+2025-04          1483          2094.59                  2.2            918     3106270.98
+2025-05          1510          1909.63                  2.2            951     2883537.14
+2025-06          1431          1975.69                  2.2            917     2827219.51
+2025-07            52          1817.54                  2.0             50       94512.02
+
+--- 5. Discount Impact Analysis ---
+discount_band  line_items     revenue  gross_profit  margin_pct  discount_amount_given
+  No Discount       38266 35978061.36   17678872.03        49.1                   0.00
+        1-10%       11839 10168012.82    4571661.09        45.0              818408.38
+       11-20%        8898  6890975.07    2711957.61        39.4             1369987.28
+
+======================================================================
+All queries executed successfully.
